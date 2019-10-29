@@ -1,0 +1,810 @@
+[Django Project] - telusko
+2019.6.5
+
+mk project via window.
+
+OS: Window
+Toos: VS
+
+[Referenced by]
+https://www.youtube.com/watch?v=OTmQOjsl0eg
+
+[Settings]
+> Command
+# =======================================================
+pip install virtualenvwrapper-win
+-> virtualenvwrapper-win
+	- reference
+		https://pypi.org/project/virtualenvwrapper-win/
+mkvirtualenv test
+pip install django
+django-admin --version
+
+mkdir django_projects
+cd django_projects
+django-admin startproject luke
+
+python manage.py runserver
+	-> http://127.0.0.1:8000/
+
+※. Open VS, Open Folder with the folderName django_projects.
+But i did pycharm.
+
+> Within pycharm.
+Go to "Terminal".
+cmd)
+workon test
+python manage.py startapp calc
+
+This "calc" is, actual app.
+# =======================================================
+
+■. Hierachy
+FolderName
+	- _init_
+	- settings
+	- urls
+	- wsgi
+※. WSGI = Web Server Gateway Interface
+This WSGI is for deploying.
+
+////////////////////////////////////////////////////////
+[PART 2]
+URL mapping.
+Create file in "calc" folder.
+"urls.py"
+
+> edit - urls.py file.
+# =======================================================
+from django.urls import path
+from . (=ALL) import views
+
+urlpatterns = [
+    path('', views.home, name='home')
+]
+# =======================================================
+
+> edit - views.py file.
+# =======================================================
+from django.http import HttpResponse
+def home(request):
+    return HttpResponse("Hello World")
+# =======================================================
+
+runserver
+-> python manage.py runserver
+
+> edit - luke folders's urls.py file.
+# =======================================================
+from django.urls import path, include
+path('', include('calc.urls')),
+# =======================================================
+
+Request
+urls.py -> views.py
+
+Response
+views.py
+
+[Templete]
+DTL = Django Templete Language.
+HTML, JSP etc ..
+
+"settings.py" file,
+TEMPLETE
+
+Craete folder "templete" in 
+django_project
+	- calc
+	- luke
+	- templete <-
+		home.html
+
+> edit - home.html file.
+# =======================================================
+<body>
+<h1>Hellow World</h1>
+</body>
+# =======================================================
+
+> edit - settings.py file.
+# =======================================================
+'DIRS': [os.path.join(BASE_DIR, 'templete')],
+# =======================================================
+
+> edit - views.py file.
+# =======================================================
+ASIS)
+def home(request):
+    return HttpResponse("Hello World")
+
+TOBE)
+def home(request):
+    return render(request, 'home.html')
+# =======================================================
+
+for doing dynamic,
+> edit - views.py file.
+# =======================================================
+ASIS)
+def home(request):
+    return render(request, 'home.html', {'name':'LUKE'})
+# =======================================================
+
+> edit - home.html file.
+# =======================================================
+<h1>Hellow World {{name}}!!!!!</h1>
+# =======================================================
+
+>>> With jinja problem,
+>>> changed pycharm to VS.
+
+> VS
+install extension -> jinja
+
+> templete folder
+	- create new file
+	- base.html
+	- ! enter
+
+
+> edit - home.html file.
+# =======================================================
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>HEY! Using Jina {{name}}!!!</h1>
+<form action="add">
+    Enter 1st number:<input type="text" name="num1"><br>
+    Enter 2nd number:<input type="text" name="num2"><br>
+    <input type="submit">
+
+</form>
+
+{% endblock %}
+
+# =======================================================
+
+> edit - (calc) urls.html file.
+# =======================================================
+# -*- coding: utf-8 -*-
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('add', views.add, name='add')
+]
+# =======================================================
+
+> edit - views.py file.
+# =======================================================
+# -*- coding: utf-8 -*-
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('add', views.add, name='add')
+]
+# =======================================================
+
+> create & edit - result.html file.
+# =======================================================
+{% extends 'base.html' %}
+
+{% block content %}
+
+Result : {{result}}
+
+{% endblock %}
+# =======================================================
+
+////////////////////////////////////////////////////////
+[PART 3]
+GET vs POST
+HTTP Methods
+
+HTTP Protocol
+Request Methods
+
+Client - Request - > Server
+	 < - Response -
+
+<Request Methods>
+GET
+POST
+PUT
+DELETE
+HEAD
+CONNECT
+OPTION
+TRACE
+PATCH
+
+Approach and manage for secure address bar.
+
+IF,
+> home.html file.
+# =======================================================
+from
+<form action="add">
+to being
+<form action="add" method="post">
+# =======================================================
+
+▼
+addr bar -> http://127.0.0.1:8000/add
+Occurs error.
+Forbidden (403)
+CSRF verification failed. Request aborted.
+Reason given for failure:
+CSRF token missing or incorrect
+
+※. CSRF
+Cross-site request forgery
+사이트간의 요청의 위조로 인한 공격 가능성
+
+For avoid this error,
+Go to "settings.py"
+MIDDLEWARE = [
+'django.middleware.csrf.CsrfViewMiddleware'
+
+> home.html file.
+# =======================================================
+from
+<form action="add" method="post">
+to
+<form action="add" method="post">{% csrf_token %}
+# =======================================================
+
+-> MultiValueDictKeyError at /add
+means,
+
+C:\Users\artlabsoft\django_projects\luke\calc\views.py in add
+# Create your views here.
+def home(request):
+    return render(request, 'home.html', {'name': 'LUKE'})
+def add(request):
+    val1 = int(request.GET['num1']) …
+    val2 = int(request.GET['num2'])
+    # res = int(val1) + int(val2)
+    res = val1 + val2
+    return render(request, "result.html", {'result': res})
+
+So,
+Go to 
+
+C:\Users\artlabsoft\django_projects\luke\calc\views.py in add
+> edit - views.py
+# =======================================================
+    val1 = int(request.POST['num1'])
+    val2 = int(request.POST['num2'])
+# =======================================================
+
+Not sending values on the addr bar anymore!
+
+Fetch data -> GET/POST
+
+////////////////////////////////////////////////////////
+[PART 4]
+Model View
+Templete (MVT)
+
+About "Design Pattern".
+(Singleton, MVC, MVT, MTV etc.)
+
+In Django uses MVT.
+
+Model
+	View
+		Templete
+
+
+User - Page - > Server
+	<Static Page>
+
+1. Layout
+2. Data
+
+Important,
+	Data (DB)
+	Layout (Front)
+	Business Logic (Service, Backend)
+
+Data
+	Layout
+		Logic
+
+Model = Data Base
+Templetes = Layout(HTML, CSS, JavaScript)
+DTL(Django Templete Language)
+
+<MVT FrameWork>
+		Request					- Model - DB
+User - [Django - URL] - View 	- Templete
+
+
+MVC / MTV
+Model		-	Model
+View 		-	Templete
+Controller	-	View
+
+////////////////////////////////////////////////////////
+[PART 5]
+
+■. Static Files - 1
+
+Requires templete
+- Travello
+	https://colorlib.com/wp/template/travello/
+	Down Load .zip
+
+	- img
+	- js
+	- plugins
+	...
+
+> Terminal
+python manage.py startapp travello
+
+> copy index.html from Travello folder to templete folder.
+
+> Create(or copy) "urls.py" file in travello folder.
+
+> Edit - (travello) "views.py"
+# =======================================================
+def index(request):
+    return render(request, 'index.html')
+# =======================================================
+
+> Edit - (luke) "urls.py"
+# =======================================================
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    # path('', include('calc.urls')),
+    path('', include('travello.urls')),
+]
+# =======================================================
+
+※. runserver
+(test) C:\Users\artlabsoft\django_projects\luke>python manage.py runserver
+
+■. Static Files - 2
+> Create folder "static" in depth of luke.
+	Down Loaded files from travello
+	- images
+	- js
+	- plugins
+	- styles
+
+copy 4 folders to static.
+
+> Go to "settings.py"
+	STATIC_URL = '/static/'
+
+	add
+
+	STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+	]
+	STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+
+Occures Error
+
+> Go to "index.html" from templete folder.
+<link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+
+TemplateSyntaxError at /
+Invalid block tag on line 9: 'static'.
+
+> Go to "index.html" from templete folder.
+add
+{% load static %}
+
+> Go to Terminal
+python manage.py collectstatic
+
+////////////////////////////////////////////////////////
+[PART 6]
+
+■. Passing Dynamic Data in HTML
+	Part - 1
+
+- Change data for front view(HTML page).
+
+> Go to (travello) "views.py"
+# =======================================================
+from)
+def index(request):
+    return render(request, 'index.html')
+
+to)
+def index(request):
+    return render(request, 'index.html', {'price': 700})
+# =======================================================
+
+※. Setting VS keymap like pycharm Ctrl + Alt + L (Reformat code):
+pip install auto pep8
+& C:/Users/artlabsoft/AppData/Local/Programs/Python/Python38-32/python.exe -m pip install -U pylint --user
+
+> Go to "index.html"
+find, "Bali"
+<div class="destination_price">From $679</div>
+<div class="destination_price">From {{price}}</div>
+
+Above is just only static that means, every price should
+change it per each one by one.
+-> Make it 6 objects (Bali, Indonesia, San Francisco ...)
+
+> Go to (travello) "models.py"
+# =======================================================
+class Destination:
+    id: int
+    name: str
+    img: str
+    desc: str
+    price: int
+# =======================================================
+
+> Go to (travello) "views.py"
+# =======================================================
+from)
+def index(request):
+    return render(request, 'index.html', {'price': 700})
+to)
+def index(request):
+    dest1 = Destination()
+
+    return render(request, 'index.html', {'dest1': dest1})
+# =======================================================
+
+> Go to templete "index.html"
+# =======================================================
+from)
+<div class="destination_content">
+	<div class="destination_title">
+		<a href="destinations.html">Bali</a>
+	</div>
+	<div class="destination_subtitle">
+		<p>Nulla pretium tincidunt felis, nec.</p>
+	</div>
+	<div class="destination_price">From {{price}}</div>
+</div>
+
+to)
+<div class="destination_title">
+	<a href="destinations.html">{{dest1.name}}</a>
+</div>
+# =======================================================
+
+> Go to (travello) "views.py"
+# =======================================================
+from)
+def index(request):
+    dest1 = Destination()
+
+    return render(request, 'index.html', {'dest1': dest1})
+
+to)
+def index(request):
+    dest1 = Destination()
+    dest1.name = 'Mumba' <-
+    dest1.desc = 'The City That Never Sleeps! -said by- Luke' <-
+
+    return render(request, 'index.html', {'dest1': dest1})
+# =======================================================
+
+> Go to templete "index.html"
+# =======================================================
+from)
+<div class="destination_content">
+	<div class="destination_title">
+		<a href="destinations.html">Bali</a>
+	</div>
+	<div class="destination_subtitle">
+		<p>Nulla pretium tincidunt felis, nec.</p> <-
+	</div>
+	<div class="destination_price">From {{price}}</div> <-
+</div>
+
+to)
+<div class="destination_subtitle"><p>{{dest1.desc}}</p></div>
+<div class="destination_price">From {{dest1.desc}}</div>
+# =======================================================
+
+////////////////////////////////////////////////////////
+[PART 6]
+
+■. Passing Dynamic Data in HTML
+	Part - 2
+
+	- Dealing with images.
+
+> Go to (travello) "views.py"
+# =======================================================
+add
+dest1.img = 'destination_1.jpg'
+
+dest2 = Destination()
+...
+
+dests = [dest1, dest2, dest3]
+return render(request,
+                  'index.html',
+                  {
+                      'dests': dests,
+                  },
+                  )
+# =======================================================
+
+> Go to templete folder "index.html"
+# =======================================================
+Use loop.
+# =======================================================
+
+////////////////////////////////////////////////////////
+[PART 6]
+
+■. If statement in Django.
+
+> Go to templete folder "index.html"
+# =======================================================
+Get rid of "Special Offer"
+<!-- 
+<div class="spec_offer text-center">
+	<a href="#">Special Offer</a>
+</div> 
+-->
+# =======================================================
+
+> Go to (travello) "views.py"
+# =======================================================
+Set value with Boolean.
+dest1.offer = False
+dest2.offer = False
+dest3.offer = False
+# =======================================================
+
+> Go to templete folder "index.html"
+# =======================================================
+Get rid of "Special Offer"
+From)
+<!-- 
+<div class="spec_offer text-center">
+	<a href="#">Special Offer</a>
+</div> 
+-->
+
+To)
+{% if dest.offer %}
+<div class="spec_offer text-center">
+	<a href="#">Special Offer</a>
+</div>
+{% endif %}
+# =======================================================
+
+////////////////////////////////////////////////////////
+[PART 7]
+
+■. ORM(Object-Relational Mapper) Theory
+- Model data <-> DB
+
+Data - (Access) - Application
+
+DB
+	Application
+		User
+
+Product table, Customer table, Member table etc..
+
+in Java VO,
+Cust_id
+Cust_name
+Cust_addr
+Cust_phn
+etc..
+
+-> make class
+class Customer:
+Cust_id
+Cust_name
+Cust_addr
+Cust_phn
+etc..	
+
+SQL -> stack / get
+
+..Django, Hibernate..
+
+////////////////////////////////////////////////////////
+[PART 8]
+
+■. Postgres and PgAdmin Setup
+Requires, Data Base engin.
+	Oracle, Postgres, My-SQL, IBM/DB2 etc..
+
+- Download Postgres
+	https://www.postgresql.org/download/
+
+- pgAdmin 4
+	https://www.pgadmin.org/download/
+
+[Postgres DB]
+Id/Pass
+ - luke / luke
+Port: 5432
+
+[pgAdmin]
+http://127.0.0.1:50193/browser/
+
+////////////////////////////////////////////////////////
+[PART 9]
+
+■. Models & Migrations
+By pgAdmin page,
+	PostgresSQL
+		- Databases -> right click to create database.
+			luke
+
+> Go to luke folder "settings.py"
+# =======================================================
+find data bases,
+
+From)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+To)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'luke',
+        'USER': 'postgres',
+        'PASSWORD': 'luke',
+        'HOST': 'localhost',
+    }
+}
+# =======================================================
+
+Install connection,
+pip install psycopg2
+
+> Go to (travello) "model.py"
+# =======================================================
+From)
+class Destination:
+    id: int
+    name: str
+    img: str
+    desc: str
+    price: int
+
+To)
+class Destination(models.Model):
+    id: int
+    name: str
+    img: str
+    desc: str
+    price: int
+# =======================================================
+
+■. Referenced site
+https://docs.djangoproject.com/ko/2.2/ref/models/fields/
+
+> Go to Terminal and cmd
+python manage.py makemigrations
+	- Occured Err
+
+> Go to luke folder "settings.py"
+# =======================================================
+INSTALLED_APPS = [
+add
+
+'travello.apps.TravelConfig',
+# =======================================================
+
+> pip install Pillow
+> python manage.py sqlmigrate travello 0001
+> python manage.py migrate
+
+
+
+////////////////////////////////////////////////////////
+[PART 10]
+
+■. Re-Migration
+
+※. While bellow err:
+# =======================================================
+Please select a fix:
+
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+
+ 2) Quit, and let me add a default in models.py
+
+Select an option: 
+...
+
+필드의 속성에 null=True 를 추가해주거나 필드의 default 값을 설정
+
+출처: https://jamanbbo.tistory.com/19 [자기계발하는 쏭이]
+# =======================================================
+
+1) -> Input correct value via python idle.
+
+////////////////////////////////////////////////////////
+[PART 11]
+
+■. Admin Panel
+
+Creating Super User(=Admin)
+
+> Go to terminal,
+# =======================================================
+python manage.py help
+	- createsuperuser
+# =======================================================
+
+(test) C:\Users\artlabsoft\django_projects\luke>python manage.py createsuperuser
+Username (leave blank to use 'artlabsoft'): luke
+Email address: lukebayesian@gmail.com
+Password:
+Password (again):
+The password is too similar to the username.
+This password is too short. It must contain at least 8 characters.
+This password is too common.
+Bypass password validation and create user anyway? [y/N]: y
+Superuser created successfully.
+
+> Go to (travello) "admin.py"
+# =======================================================
+from django.contrib import admin
+from .models import Destination
+# Register your models here.
+
+admin.site.register(Destination)
+
+# =======================================================
+
+> Go to Web
+	- Able to notice that TRAVELLO div added. (UI changed)
+	- When click "Destination" then add pages come-up having
+		settings that i was given in (Travello) "models.py".
+
+
+////////////////////////////////////////////////////////
+[PART 12]
+
+■. Add and Fetch data from Data Base.
+	- How i gonna handle image files with DB.
+
+> Go to Luke folder, "settings.py"
+# =======================================================
+Add script)
+
+# Specifies image-files location, will use base path.
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# =======================================================
+
+> Go to Luke-Luke folder, "urls.py"
+# =======================================================
+Add script)
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# OR just add line between below,
+# urlpatterns = [
+#     # path('', include('calc.urls')),
+#     path('', include('travello.urls')),
+#     path('admin/', admin.site.urls),
+#     path() <-
+# ]
+# =======================================================

@@ -1,0 +1,145 @@
+[DEV, Useful Tips]
+
+※. Debugging Django in pycharm.
+	- Go to Run/Debug Configurations
+	- Add new configuration(Alt + Insert)
+	- Name: Whatever
+	- Script path: path_to/manage.py (Which means, path that placed "manage.py" file.)
+		ex) C:\Users\artlabsoft\django_projects\luke\manage.py
+	- Parameters: runserver
+	- If err occurs with "Pillow"
+		then, pip install Pillow
+
+※. Debugging SQL Queries.
+	- Reference
+		https://gaussian37.github.io/python-django-django-debug-toolbar/
+	
+	- pip install django-debug-toolbar
+	- project/settings.py
+		INSTALLED_APPS = [
+		    # ...
+		    'django.contrib.staticfiles',
+		    # ...
+		    'debug_toolbar',
+		]
+
+		STATIC_URL = '/static/'
+
+	- project/urls.py
+		if settings.DEBUG:
+		    import debug_toolbar
+		    urlpatterns = + [
+		        path('__debug__/', include(debug_toolbar.urls)),
+
+		        # For django versions before 2.0:
+		        # url(r'^__debug__/', include(debug_toolbar.urls)),
+
+		    ]
+		debug 관련 내용 이기 때문에 반드시 settings.DEBUG = True 일 때만 사용하는 것을 추천
+
+	- django-debug-toolbar는 주로 middleware에서 동작합니다.
+	- project/settings.py의 MIDDLEWARE에 debug toolbar를 추가합니다.
+		MIDDLEWARE = [
+			# ...
+			'debug_toolbar.middleware.DebugToolbarMiddleware',
+			# ...
+		]
+
+	- Internal IP를 추가
+		- project/settings.py localhost를 등록
+			# The Debug Toolbar is shown only if your IP is listed in the INTERNAL_IPS setting.
+				INTERNAL_IPS = ['127.0.0.1']
+	
+	환경 구성을 완료하셨으면 웹페이지를 띄우면 바로 django-debug-toolbar가 실행됩니다.
+	앞에서 설명드린 바와 같이 반드시 <body> ... </body>가 있어야 실행되게 됩니다.
+	웹 페이지를 실행하면 아래와 같이 우측에 보이게 됩니다.
+
+	특정 쿼리를 실행하게 되면 (웹페이지 조회) sql이 실행된 내용을 볼 수 있습니다.
+	클릭하면 상세 내역도 볼 수 있습니다.
+
+※. Setting VS keymap like pycharm Ctrl + Alt + L (Reformat code):
+pip install auto pep8
+& C:/Users/artlabsoft/AppData/Local/Programs/Python/Python38-32/python.exe -m pip install -U pylint --user
+
+※. With pip installed files path were here.
+	c:\users\artlabsoft\envs\test\lib\site-packages\pip
+
+※. Django ORM ERD
+	○. Requirement
+		- graphviz
+			https://www.graphviz.org/download/
+
+		- pip packages
+			pyparsing
+			pygraphviz
+			pydot3
+			django-extensions
+
+	
+	error: Microsoft Visual C++ 14.0 is required. Get it with "Microsoft Visual C++ Build Tools": https://visualstudio.microsoft.com/downloads/
+
+	Solve:
+	https://cofs.tistory.com/388
+	https://visualstudio.microsoft.com/ko/vs/older-downloads/
+	재배포 가능 패키지 및 빌드 도구
+	Microsoft Build Tools 2015 업데이트 3
+
+	If all the solutions above failed, you can still clone directly from the pygraphviz repository
+
+	Visit: https://github.com/pygraphviz/pygraphviz.git
+	Download/Clone it
+	put the folder into C:\Users\\AppData\Local\Programs\Python\Python37-32\Lib\site-packages
+	Change directory to “pygraphviz”
+	Run “python setup.py install” to build and install
+	(optional) Run “python setup_egg.py nosetests” to execute the tests
+	Source: http://pygraphviz.github.io/documentation/pygraphviz-1.3.1/install.html
+
+	Reference,
+	https://developc.tistory.com/entry/Django-ORM%EA%B8%B0%EB%B0%98-ERD-%EC%83%9D%EC%84%B1
+	https://blog.isaccchoi.com/programing/Django-ERD-%EB%A7%8C%EB%93%A4%EA%B8%B0/
+	{ 
+		pyreverse -o pdf project_name/models.py -p project
+
+		Me)
+		pyreverse -o pdf C:\Users\artlabsoft\django_projects\luke\travello\models.py -p project
+
+		graph_models -a > my_project.dot
+		
+		./manage.py graph_models -a -g -o my_project_visualized.pdf
+		./manage.py graph_models -a -g -o my_project_visualized.png
+	}
+
+	Reference,
+	https://codeday.me/ko/qa/20190323/51487.html
+	{
+		UML에서 장고 모델을 만들고 싶다면 : uml-to-django.
+		UML 다이어그램을 만들려면 Dia, yED 및 ArgoUML이 있습니다.
+		이 list of tools.도 확인할 수 있습니다.	
+	}
+	
+
+	Reference,
+	https://insung151.tistory.com/6
+	https://simpleit.rocks/es/python/django/generar-diagramas-clases-uml-modelos-django/
+	{
+		pip install GraphViz
+		pip install Dotplus
+	}
+	
+	Reference,
+	https://datascience.stackexchange.com/questions/37428/graphviz-not-working-when-imported-inside-pydotplus-graphvizs-executables-not/37431
+	{
+		python manage.py graph_models -a > dotfile.dot
+		For windows: C:\Program Files (x86)\Graphviz2.38\bin\gvedit.exe
+		Now run gvedit.exe and open .dot file created so far.
+	}
+	
+
+
+
+
+
+
+
+
+

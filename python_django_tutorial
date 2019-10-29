@@ -1,0 +1,99 @@
+https://www.youtube.com/watch?v=F5mRW0jo-U4
+
+
+[virtualenv setting. Referenced by]
+# ===================================================
+joincfe.com/from-zero
+https://www.codingforentrepreneurs.com/blog/install-python-django-on-windows/
+# ===================================================
+Settings for django project.
+pip3 freeze
+
+Open powershell(admin excute)
+Set-ExecutionPolicy Unrestricted
+
+pip install virtaulenv
+> For me,
+	C:\Users\artlabsoft> virtualenv .
+	C:\Users\artlabsoft> virtualenv -p python3 .
+	C:\Users\artlabsoft\django_dev>
+
+	> cd ~/Dev
+	> virtualenv yourenvname
+	> cd yourenvname
+
+	> cd \path\to\your\virtualen\env\ 
+	> cd ~\Dev\cfehome
+	> .\Scripts\activate
+
+	> cd ~\Dev\cfehome # or your virtualenv's path
+	> .\Scripts\activate
+	(cfehome) > deactivate
+	> .\Scripts\activate
+	(cfehome) >
+
+	> cd ~\Dev\cfehome
+	> .\Scripts\activate
+	(cfehome) > pip install django==1.11.5
+
+	
+
+
+pip3 install django
+
+[Referenced by]
+# ===================================================
+https://github.com/codingforentrepreneurs/Try-Django
+djangoproject.com
+# ===================================================
+
+env / venv
+
+디렉터리: C:\Users\artlabsoft\dev_python_django
+디렉터리: C:\Users\artlabsoft\dev_python_django\src
+django-admin startproject trydjango .
+
+python manage.py runserver
+
+open explorer -> http://127.0.0.1:8000/
+
+> Go to project folder -> chk is manage.py file there and then,
+python manage.py migrate
+python manage.py createusuperuser
+
+python manage.py startapp products
+python manage.py startapp blog
+python manage.py startapp profiles
+python manage.py startapp cart
+
+> Seeking for products folder -> models.py
+make)
+title
+description
+price
+with, models.TextField()
+class Product(models.Model):
+    title = models.TextField()
+    description = models.TextField()
+    price = models.TextField()
+
+> Add models.py's app to "settings.py" file.
+INSTALLED_APPS = [
+# my own
+'products'
+
+> Go to prompt,
+	python manage.py makemigrations
+	python manage.py migrate
+
+> Go to "admin.py" file,
+	from .models import Product
+	admin.site.register(Product)
+
+> Go to browser(chk that given server is still running.)
+	chk product is created.
+
+
+
+
+

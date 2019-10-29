@@ -1,0 +1,24 @@
+[RPA, Automations, Testing & Validation]
+
+> Word Dictionary <
+◎. BMT
+: Bench Marking Test
+
+	- 주로 이미 검증되어 있는 솔루션(CAD, 파일 서버, 메일 서버 등)을 
+		적절한 하드웨어를 통해 서비스를 구현할 때 해당 하드웨어가 원하는 성능을 
+		내는가를 검증할 때 자주 사용.
+	- 실제 도입할 장비에 대해 테스트.
+
+
+◎. POC
+: Proof of Concept
+	- 실 도입과는 상관없이 새로운(?) 분야 혹은 신기술 발표시 검증을 위해 진행
+		* 이 경우는 장비, 솔루션 회사에서 역으로 우리회사로 POC를 한번 해달라고 
+			요청이 옴
+		나중에 제품 소개자료 같은데 POC 진행 레퍼런스로 넣는 경우가 많음.
+
+> Open Source <
+- Robot Framework Foundation
+https://github.com/robotframework/robotframework
+
+
