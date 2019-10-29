@@ -36,9 +36,6 @@ pip install virtaulenv
 	> .\Scripts\activate
 	(cfehome) > pip install django==1.11.5
 
-	
-
-
 pip3 install django
 
 [Referenced by]
@@ -92,8 +89,5 @@ INSTALLED_APPS = [
 
 > Go to browser(chk that given server is still running.)
 	chk product is created.
-
-
-
 
 

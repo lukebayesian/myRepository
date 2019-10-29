@@ -1,5 +1,10 @@
 [RPA, Automations, Testing & Validation]
 
+RPA
+	- A software/technology which mimics human actions to perform
+		a sequence of steps without human invention
+		is known as RPA.
+
 > Word Dictionary <
 ◎. BMT
 : Bench Marking Test
@@ -17,8 +22,44 @@
 			요청이 옴
 		나중에 제품 소개자료 같은데 POC 진행 레퍼런스로 넣는 경우가 많음.
 
+	- The point of a POC is,
+	 	Not to confirm if RPA technology does what it claims to do.
+
+	- The primary POC purpose is, 
+		To test business case assumptions, validate the best implementation model and assess RPA integration and technology partners.
+
 > Open Source <
 - Robot Framework Foundation
 https://github.com/robotframework/robotframework
 
+
+# Reference
+https://www.youtube.com/watch?v=CeQ0ESO6Ulw
+{
+	
+
+●. RPA Tools
+	- blueprism
+		* Based on java.
+		* Very costy.
+
+	- UiPath <-
+		* Free ware so easy to approach for lean how to build RPA.
+
+	- Automation Anywhere
+		* 15 days for trial.
+		* Not free.
+
+●. UiPath
+ - Offered a community edition to people who wanna learn and implement RPA.
+
+ - Installing UiPath Community Edition.
+
+
+}
+
+■. My opinion
+
+- What are you gonna automate?
+- Ranges?
 

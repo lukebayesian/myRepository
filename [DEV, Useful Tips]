@@ -126,6 +126,7 @@ pip install auto pep8
 		pip install Dotplus
 	}
 	
+	※. Worked!
 	Reference,
 	https://datascience.stackexchange.com/questions/37428/graphviz-not-working-when-imported-inside-pydotplus-graphvizs-executables-not/37431
 	{
@@ -133,7 +134,7 @@ pip install auto pep8
 		For windows: C:\Program Files (x86)\Graphviz2.38\bin\gvedit.exe
 		Now run gvedit.exe and open .dot file created so far.
 	}
-	
+
 
 
 

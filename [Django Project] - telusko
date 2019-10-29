@@ -424,10 +424,6 @@ def index(request):
     return render(request, 'index.html', {'price': 700})
 # =======================================================
 
-※. Setting VS keymap like pycharm Ctrl + Alt + L (Reformat code):
-pip install auto pep8
-& C:/Users/artlabsoft/AppData/Local/Programs/Python/Python38-32/python.exe -m pip install -U pylint --user
-
 > Go to "index.html"
 find, "Bali"
 <div class="destination_price">From $679</div>
@@ -807,4 +803,132 @@ urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.ME
 #     path('admin/', admin.site.urls),
 #     path() <-
 # ]
+# =======================================================
+
+> Go to Web,
+	- Click and add image files.
+
+> Go to pgAdmin 4
+	- Check Table that some-changes through input values from web
+		that i did.
+
+> Go to travello folder - "views.py"
+# =======================================================
+Remove or Block-comments previous codes)
+dest1 = Destination()
+dest1.name = 'Mumba'
+...
+
+Add)
+dests = Destination.objects.all()
+
+return render(request, 'index.html', {'dests': dests})
+# =======================================================
+
+> Go to templete folder - "index.html"
+# =======================================================
+Modify code)
+From)
+<img src="{{baseUrl}}/{{dest.img}}" alt="">
+
+To)
+<img src="{{baseUrl}}/{{dest.img}}" alt="">
+# =======================================================
+
+////////////////////////////////////////////////////////
+[PART 13]
+
+■. User Registeration - 1
+
+> Go to Terminal,
+# =======================================================
+(test) C:\Users\artlabsoft\django_projects\luke>python manage.py startapp accounts
+# =======================================================
+
+> Create "urls.py" under accounts folder.
+# =======================================================
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('register', views.register, name='register'),
+    # path('travello', views.index, name='index'),
+    # path('add', views.add, name='add'),
+]
+# =======================================================
+
+> Go to luke - "url.py"
+# =======================================================
+Add)
+urlpatterns = [
+	path('register/', include('accounts.urls')) <-
+]
+# =======================================================
+
+> Go to accounts folder - "views.py"
+# =======================================================
+Create)
+def register(request):
+	pass
+# =======================================================
+
+> Go to templete folder - "index.html"
+# =======================================================
+Modify)
+<ul class="d-flex flex-row align-items-start justify-content-start">
+	<li class="active"><a href="index.html">Home</a></li>
+	
+	<li><a href="contact.html">Contact</a></li>
+	<li><a href="accounts/register">Register</a></li>
+	
+	<!-- <li><a href="about.html">About us</a></li>
+	<li><a href="#">Services</a></li>
+	<li><a href="news.html">News</a></li>
+	<li><a href="contact.html">Contact</a></li> -->
+</ul>
+# =======================================================
+
+> Go to accounts folder - "views.py"
+# =======================================================
+def register(request):
+    return render(request, 'register.html')
+# =======================================================
+
+> Go to Templete folder - create "register.html"
+# =======================================================
+- Use autocomplition,
+	"sample"
+
+- Make from
+	<form action="register" method="POST">
+    </form>
+# =======================================================
+
+> Go to pgAdmin 4 web, create datas.
+# =======================================================
+- Seek for auth_user table.
+# =======================================================
+
+> Go to accounts folder - "register.html"
+# =======================================================
+<form action="register" method="POST">
+    {% csrf_token %}
+    
+    <input type="text" name="first_name" placeholder="First Name"><br/>
+    <input type="text" name="last_name" placeholder="Last Name"><br/>
+    <input type="text" name="user_name" placeholder="User Name"><br/>
+    <input type="text" name="email" placeholder="Email"><br/>
+    <input type="text" name="password1" placeholder="Password"><br/>
+    <input type="text" name="password2" placeholder="Confirm Password"><br/>
+</form>
+# =======================================================
+
+////////////////////////////////////////////////////////
+[PART 13]
+
+■. User Registeration - 2
+
+> Go to accounts folder - "views.py"
+# =======================================================
+
 # =======================================================
