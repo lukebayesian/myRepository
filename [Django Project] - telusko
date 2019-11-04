@@ -930,5 +930,185 @@ def register(request):
 
 > Go to accounts folder - "views.py"
 # =======================================================
+from django.shortcuts import render, redirect  # <-
+from django.contrib.auth.models import User, auth  # <-
+
+# Create your views here.
+def register(request):
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        user_name = request.POST['user_name']
+        email = request.POST['email']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+
+        print('Debug: ', first_name, last_name, user_name, email, password1, password2)
+
+        # This occured error. -> TypeError: User() got an unexpected keyword argument 'password2'
+        # user = User.objects.create_user(first_name=first_name, last_name=last_name, username=user_name, email=email,
+        #                                 password=password1, password2=password2)
+
+
+        user = User.objects.create_user(username=user_name, email=email, password=password1, first_name=first_name,
+                                        last_name=last_name)
+
+        # Exception -> render to Exception Pages(404Exception.html).
+        user.save()
+        print('Debug: User created')
+        return redirect('/')
+    else:
+        return render(request, 'register.html')
+# =======================================================
+
+> Go to pgAdmin4, check out changes
+	- auth_user table changed.
+
+from django.shortcuts import render, redirect  # <-
+from django.contrib.auth.models import User, auth  # <-
+
+> Compare with this.
+# =======================================================
+def register(request):
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        user_name = request.POST['user_name']
+        email = request.POST['email']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+
+        print('Debug: ', first_name, last_name, user_name, email, password1, password2)
+
+        # user = User.objects.create_user(first_name=first_name, last_name=last_name, username=user_name, email=email,
+        #                                 password=password1, password2=password2)
+
+        if password1 == password2:
+            print('Debug chk user_name value by "User.objects.filter": ',
+                  User.objects.filter(username=user_name).exists())
+            print('Debug chk email value by "User.objects.filter": ', User.objects.filter(email=email).exists())
+
+            if User.objects.filter(username=user_name).exists():
+                print('Username taken')
+            elif User.objects.filter(email=email).exists():
+                print('email taken')
+            else:
+                user = User.objects.create_user(username=user_name, email=email, password=password1, first_name=first_name,
+                                                last_name=last_name)
+                # Exception -> render to Exception Pages(404Exception.html).
+                user.save()
+                print('Debug: User created')
+        else:
+            print('User password dismatched!')
+        return redirect('/')
+    else:
+        return render(request, 'register.html')
+# =======================================================
+
+////////////////////////////////////////////////////////
+[PART 14]
+
+■. Passing Message in Django
+
+> Go to accounts folder - "views.py"
+# =======================================================
+Modify Code)
+from django.contrib import messages
+
+if User.objects.filter(username=user_name).exists():
+    # info(request, message, extra_tags='', fail_silently=False):
+    messages.info(request, 'Username Taken')
+    return redirect('/')
+
+elif User.objects.filter(email=email).exists():
+    messages.info(request, 'Email Taken')
+    return redirect('/')
+# =======================================================
 
 # =======================================================
+from django.shortcuts import render, redirect  # <-
+from django.contrib.auth.models import User, auth  # <-
+from django.contrib import messages # <-
+
+
+# Create your views here.
+def register(request):
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        user_name = request.POST['user_name']
+        email = request.POST['email']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+
+        print('Debug: ', first_name, last_name, user_name, email, password1, password2)
+
+        # user = User.objects.create_user(first_name=first_name, last_name=last_name, username=user_name, email=email,
+        #                                 password=password1, password2=password2)
+
+        if password1 == password2:
+            print('Debug chk user_name value by "User.objects.filter": ',
+                  User.objects.filter(username=user_name).exists())
+            print('Debug chk email value by "User.objects.filter": ', User.objects.filter(email=email).exists())
+
+            if User.objects.filter(username=user_name).exists():
+                # info(request, message, extra_tags='', fail_silently=False):
+                messages.info(request, 'Username Taken')
+                return redirect('register')
+
+            elif User.objects.filter(email=email).exists():
+                messages.info(request, 'Email Taken')
+                return redirect('register')
+
+            else:
+                user = User.objects.create_user(username=user_name, email=email, password=password1, first_name=first_name,
+                                                last_name=last_name)
+                # Exception -> render to Exception Pages(404Exception.html).
+                user.save()
+                print('Debug: User created')
+        else:
+            messages.info(request, 'User password dismatched!')
+            print('User password dismatched!')
+            return redirect('register')
+        return redirect('/')
+    else:
+        return render(request, 'register.html')
+# =======================================================
+
+////////////////////////////////////////////////////////
+[PART 15]
+
+■. User Login
+
+> Create "login.html" under the templete folder.
+> Go to accouts folder, "urls.py"
+# =======================================================
+Add)
+path('login', views.login, name='login'),
+# =======================================================
+
+> Go to accouts folder, "views.py"
+
+> Go to "login.html"
+
+
+////////////////////////////////////////////////////////
+[PART 16]
+
+■. User Logout
+
+> Go to "index.html"
+	- Give logout form
+
+> Go to accounts "urls.py"
+	- path('logout', views.logout, name='logout')
+
+> Go to accounts "views.py"
+	- auth.logout(request)
+
+※. Caution!!!
+In "index.html",
+	{% if user.is_authenticate}
+	{% if user.is_authenticated}
+distincts very strictly.
+

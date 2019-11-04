@@ -1,0 +1,34 @@
+[Sass - DesignCourse]
+https://www.youtube.com/watch?v=roywYSEPSvc
+
+
+mkdir sassy && cd sassy
+C:\Users\artlabsoft\Frontend\sassy> code .
+	-> instantly opens visual code framework
+
+> make file "index.html"
+> <link rel="stylesheet" href="css/main.css">
+
+> make file "main.csss"
+
+> install "Live Sass Compiler" extension.
+
+> Click Watch Sass button.
+	- Will generate 2files for .css / .css.map
+
+> Reference,
+	https://caniuse.com/
+
+> Declare variables in "main.scss"
+	- right-click to "index.html" & open with live-sever
+		will open browser.
+
+Web-based app
+	-> css click path:
+		https://bennettfeely.com/
+		https://bennettfeely.com/clippy/
+
+> Functions
+	- $colors
+	- @function
+

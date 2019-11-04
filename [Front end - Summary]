@@ -1,0 +1,92 @@
+[Front end - Summary]
+
+■. Reference,
+	- https://www.youtube.com/watch?v=9kl30htP1iw
+
+Becoming a Frontend Dev in 19 / Designer
+
+A Five Step Approaches.
+
+HTML / CSS
+
+//////////////////////////////////////////////////
+
+Step 1
+●. Design Fundamentals
+
+Design pincipals.
+
+- Color & Contrast (UI design)
+	> Using right contrast color.
+
+- White space
+	padding, margin etc.
+
+- Visual Hierarchy
+	Emphasies characters
+
+- Complexity vs Simplicity
+
+- Consistency
+	same patterns, same designs..
+
+Step 2
+●. Designing & Prototyping UI's
+	Creating markup, prototypes for prepare other requests.
+
+●. Choose your weapon of choice.
+	- Old-schoolded way
+	- New-schoolded way
+
+	Sketch - photoshop, W-xd, Pigma, invision-app, gravity, framer, principle etc.
+
+	Sketch, W-xd, Pigma
+
+Step 3
+●. HTML & CSS
+
+	- Code Editors
+		Visual Studio Code, SublimeText
+
+	- Understanding HTML
+	- Understanding CSS
+	- Undersainding Sass
+		# Syntactically Awesome Style Sheets.
+		# A preprocessor that enhances the power of CSS.
+			Allow you to write css for instance with differenct features.
+			Will output regular css for you.
+
+Step 4
+●. JavaScript
+	
+	Muliple beginer courses.
+
+Step 5
+●. JS Frameworks / Libraries
+	- Vanila JS
+	- React, Angular(google), Vue
+
+	Choose most comportable.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

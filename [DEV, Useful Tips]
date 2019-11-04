@@ -136,6 +136,42 @@ pip install auto pep8
 	}
 
 
+※. Visual Studio Code - Extensions.
+
+●. For JavaScript
+	- ESLint
+		Category: Debugging
+
+	- Quokka.js
+		Category: Debugging
+
+	- Live Server
+		Cateogry: Debugging
+
+	- Fira Code
+		Category: Font
+
+	- Babel JavaScript
+		Category: Syntax HighLighting
+
+	- REST Client
+		Category: Testing - HTTP requests, responses. e.g)Postman
+
+	- Prettier
+		Category: Styling Code, Designing Code, Forma
+					Compatable with ESLint
+
+	- GitLens
+		Category: Git
+					Blame, Heatmaps functions are famous.
+					Able to recognize recent changes and histories.
+
+
+
+
+
+
+
 
 
 
